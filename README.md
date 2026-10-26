@@ -6,6 +6,8 @@
 
 A [pi](https://github.com/earendil-works/pi) extension that lets the built-in `read` tool open office documents.
 
+![pi-doc-reader demo: reading a PDF with text pages and a scanned page](assets/demo.gif)
+
 The extension overrides `read` (same-name tool registration, an officially supported mechanism). Files that are not office documents are delegated unchanged to the built-in implementation, so text and image behavior is byte-identical to stock pi.
 
 ## Supported formats
