@@ -1,6 +1,6 @@
 {
 	"name": "pi-doc-reader",
-	"version": "0.3.0",
+	"version": "0.3.1",
 	"description": "pi extension: read PDF/DOCX/XLSX/PPTX documents through the read tool — PDF text layer plus rendered page images for scanned pages, office documents converted to markdown.",
 	"type": "module",
 	"main": "index.ts",
