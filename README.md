@@ -1,5 +1,9 @@
 # pi-doc-reader
 
+[![npm version](https://img.shields.io/npm/v/pi-doc-reader.svg)](https://www.npmjs.com/package/pi-doc-reader)
+[![CI](https://github.com/skyler-developer/pi-doc-reader/actions/workflows/ci.yml/badge.svg)](https://github.com/skyler-developer/pi-doc-reader/actions/workflows/ci.yml)
+[![install with pi](https://img.shields.io/badge/install%20with-pi-blue)](https://pi.dev/packages/pi-doc-reader)
+
 A [pi](https://github.com/earendil-works/pi) extension that lets the built-in `read` tool open office documents.
 
 The extension overrides `read` (same-name tool registration, an officially supported mechanism). Files that are not office documents are delegated unchanged to the built-in implementation, so text and image behavior is byte-identical to stock pi.

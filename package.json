@@ -16,6 +16,14 @@
 		"documents"
 	],
 	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/skyler-developer/pi-doc-reader.git"
+	},
+	"bugs": {
+		"url": "https://github.com/skyler-developer/pi-doc-reader/issues"
+	},
+	"homepage": "https://github.com/skyler-developer/pi-doc-reader#readme",
 	"pi": {
 		"extensions": [
 			"./index.ts"
