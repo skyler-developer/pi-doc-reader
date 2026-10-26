@@ -1,0 +1,57 @@
+{
+	"name": "pi-doc-reader",
+	"version": "0.3.0",
+	"description": "pi extension: read PDF/DOCX/XLSX/PPTX documents through the read tool — PDF text layer plus rendered page images for scanned pages, office documents converted to markdown.",
+	"type": "module",
+	"main": "index.ts",
+	"keywords": [
+		"pi",
+		"pi-coding-agent",
+		"pi-package",
+		"pi-extension",
+		"docx",
+		"xlsx",
+		"pdf",
+		"pptx",
+		"documents"
+	],
+	"license": "MIT",
+	"pi": {
+		"extensions": [
+			"./index.ts"
+		]
+	},
+	"files": [
+		"index.ts",
+		"src",
+		"README.md",
+		"LICENSE"
+	],
+	"scripts": {
+		"test": "vitest --run",
+		"typecheck": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@napi-rs/canvas": "1.0.13",
+		"exceljs": "4.4.0",
+		"fflate": "0.8.3",
+		"mammoth": "1.13.0",
+		"unpdf": "1.9.0"
+	},
+	"peerDependencies": {
+		"@earendil-works/pi-ai": "*",
+		"@earendil-works/pi-coding-agent": "*",
+		"typebox": "*"
+	},
+	"devDependencies": {
+		"@earendil-works/pi-ai": "1.3.0",
+		"@earendil-works/pi-coding-agent": "1.4.0",
+		"@types/node": "22.10.2",
+		"typebox": "1.3.27",
+		"typescript": "5.7.3",
+		"vitest": "3.0.5"
+	},
+	"optionalDependencies": {
+		"@napi-rs/canvas-darwin-arm64": "^1.0.12"
+	}
+}
