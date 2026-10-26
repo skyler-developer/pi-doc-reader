@@ -1,6 +1,6 @@
 import type { AgentToolResult, ExtensionAPI, ExtensionToolContext } from "@earendil-works/pi-coding-agent";
 import {
-	createReadTool,
+	createReadToolDefinition,
 	DEFAULT_MAX_BYTES,
 	DEFAULT_MAX_LINES,
 	formatSize,
@@ -65,9 +65,11 @@ export interface DocReaderDetails {
  * handling and cwd resolution identical to the built-in tool.
  */
 type ReadToolWithCtx = {
+	promptSnippet?: string;
+	promptGuidelines?: readonly string[];
 	execute: (
 		toolCallId: string,
-		params: { path: string; offset?: number; limit?: number },
+		params: { path: string; offset?: number; limit?: number; pages?: string },
 		signal?: AbortSignal,
 		onUpdate?: unknown,
 		ctx?: ExtensionToolContext,
@@ -247,9 +249,23 @@ export default function docReaderExtension(pi: ExtensionAPI) {
 	const mode = process.env.PI_DOC_READER_MODE === "standalone" ? "standalone" : "override";
 	const isOverride = mode === "override";
 
+	// Read the built-in read tool's system-prompt contribution from the host
+	// package (createReadToolDefinition comes from the peer dependency, so the
+	// values always match the pi version actually running) instead of hardcoding.
+	// Unlike createReadTool, the unwrapped definition keeps promptSnippet/promptGuidelines.
+	const builtinRead = createReadToolDefinition(process.cwd()) as unknown as ReadToolWithCtx;
+	const promptGuidelines = [
+		...(builtinRead.promptGuidelines ?? []),
+		"Office documents (PDF/DOCX/XLSX/PPTX) are read directly with read — PDFs support the pages parameter, scanned pages are rendered as images.",
+	];
+
 	pi.registerTool({
 		name: isOverride ? "read" : "read_doc",
 		label: isOverride ? "read (doc-reader)" : "read_doc",
+		// Same-name registration replaces the whole built-in definition, so the
+		// system-prompt contribution must be forwarded explicitly. Standalone
+		// mode contributes nothing (read still exists alongside read_doc).
+		...(isOverride ? { promptSnippet: builtinRead.promptSnippet, promptGuidelines } : {}),
 		description:
 			"Read the contents of a file. Supports text files and images (jpg, png, gif, webp, bmp). " +
 			"Documents are converted: DOCX and PPTX (slides, titles, notes) to markdown, XLSX to markdown tables, " +
@@ -268,8 +284,7 @@ export default function docReaderExtension(pi: ExtensionAPI) {
 			}
 
 			if (format === null) {
-				const readTool = createReadTool(ctx.cwd) as unknown as ReadToolWithCtx;
-				return readTool.execute(toolCallId, params, signal, onUpdate, ctx);
+				return builtinRead.execute(toolCallId, params, signal, onUpdate, ctx);
 			}
 
 			const info = await stat(absolutePath);
